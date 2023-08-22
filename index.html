@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>VHVL Admin Panel</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="card shadow-lg">
+            <div class="card-header bg-primary text-white">
+                VHVL Admin Panel
+            </div>
+            <div class="card-body">
+                <ul class="nav nav-tabs mb-4">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#categories">Categories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#products">Products</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div id="categories" class="tab-pane active">
+                        <form id="categoryForm">
+                            <input type="hidden" id="categoryId">
+                            <div class="form-group">
+                                <label for="categoryName">Category Name:</label>
+                                <input type="text" id="categoryName" placeholder="Category Name" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="categorySeq">Sequence:</label>
+                                <input type="number" id="categorySeq" placeholder="Sequence" class="form-control">
+                            </div>
+                            <button onclick="saveCategory()" type="button" class="btn btn-success">Save
+                                Category</button>
+                        </form>
+                        <ul id="categoryList" class="list-group mt-4"></ul>
+                    </div>
+
+                    <div id="products" class="tab-pane fade">
+                        <form id="productForm">
+                            <input type="hidden" id="productId">
+                            <div class="form-group">
+                                <label for="productName">Product Name:</label>
+                                <input type="text" id="productName" placeholder="Product Name" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="productCategory">Category:</label>
+                                <select id="productCategory" class="form-control">
+                                    <!-- Options to be populated dynamically -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="productContent">Content:</label>
+                                <input type="text" id="productContent" placeholder="Product Content"
+                                    class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="productSeq">Sequence:</label>
+                                <input type="number" id="productSeq" placeholder="Sequence" class="form-control">
+                            </div>
+                            <button onclick="saveProduct()" type="button" class="btn btn-success">Save Product</button>
+                        </form>
+                        <ul id="productList" class="list-group mt-4"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
