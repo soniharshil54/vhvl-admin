@@ -36,7 +36,7 @@
                                 <label for="categorySeq">Sequence:</label>
                                 <input type="number" id="categorySeq" placeholder="Sequence" class="form-control">
                             </div>
-                            <button onclick="saveCategory()" type="button" class="btn btn-success">Save
+                            <button onclick="saveCategory()" type="button" id="save-category" class="btn btn-success">Save
                                 Category</button>
                         </form>
                         <ul id="categoryList" class="list-group mt-4"></ul>
@@ -64,7 +64,7 @@
                                 <label for="productSeq">Sequence:</label>
                                 <input type="number" id="productSeq" placeholder="Sequence" class="form-control">
                             </div>
-                            <button onclick="saveProduct()" type="button" class="btn btn-success">Save Product</button>
+                            <button onclick="saveProduct()" id="save-product" type="button" class="btn btn-success">Save Product</button>
                         </form>
                         <ul id="productList" class="list-group mt-4"></ul>
                     </div>
@@ -73,9 +73,60 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="loginModalLabel">Admin Login</h5>
+        </div>
+        <div class="modal-body">
+          <form id="loginForm">
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input type="text" class="form-control" id="username" required>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="password" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" onclick="login()">Login</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ <script src="script.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+        
+            if(username === "vhvl" && password === "vhvl@2023") {
+                $('#loginModal').modal('hide');
+                document.querySelector('.card').style.display = 'block';
+            } else {
+                alert('Incorrect username or password. Please try again.');
+            }
+        }
+        
+        // Show the login modal on page load
+        $(document).ready(function(){
+            $('#loginModal').modal({
+                backdrop: 'static', // Makes it mandatory to fill out credentials
+                keyboard: false     // Prevent closing with Esc button
+            });
+            $('#loginModal').modal('show');
+        });
+        
+        </script>
 </body>
 
 </html>

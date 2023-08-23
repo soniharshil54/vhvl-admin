@@ -38,7 +38,10 @@ function addCategory() {
     fetch(`${API_BASE}/category`, {
         method: 'POST',
         body: JSON.stringify({ name, sequence })
-    }).then(() => fetchCategories());
+    }).then(() => {
+        fetchCategories();
+        
+    });
 }
 
 function addProduct() {
@@ -57,6 +60,10 @@ function saveCategory() {
     const id = document.getElementById('categoryId').value;
     const name = document.getElementById('categoryName').value;
     const sequence = document.getElementById('categorySeq').value;
+    const btn = document.getElementById('save-category');  // or get the specific button by another method
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
+    btn.disabled = true;
+
 
     if (id) {
         fetch(`${API_BASE}/category/${id}`, {
@@ -65,6 +72,14 @@ function saveCategory() {
         }).then(() => {
             clearCategoryForm();
             fetchCategories();
+            const btn = document.querySelector('.edit-btn');  // or get the specific button by another method
+            btn.innerHTML = 'Save Category';
+            btn.disabled = false;
+
+        }).catch((error) => {
+            console.log(error);
+            btn.innerHTML = 'Save Category';
+            btn.disabled = false;
         });
     } else {
         fetch(`${API_BASE}/category`, {
@@ -73,14 +88,27 @@ function saveCategory() {
         }).then(() => {
             clearCategoryForm();
             fetchCategories();
+            btn.innerHTML = 'Save Category';
+            btn.disabled = false;
+        }).catch((error) => {
+            console.log(error);
+            btn.innerHTML = 'Save Category';
+            btn.disabled = false;
         });
     }
 }
 
 function deleteCategory(id) {
+    const btn = document.getElementById(`delete-category-${id}`);  // or get the specific button by another method
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
+    btn.disabled = true;
     fetch(`${API_BASE}/category/${id}`, {
         method: 'DELETE'
-    }).then(() => fetchCategories());
+    }).then(() => {
+        fetchCategories();
+        btn.innerHTML = 'Delete';
+        btn.disabled = false;
+    });
 }
 
 function editCategory(id, name, sequence) {
@@ -107,25 +135,41 @@ function fetchCategories() {
             categoryList.innerHTML = '';
             data.forEach(category => {
                 const li = document.createElement('li');
-                li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
-                li.textContent = category.name;
-
+                li.classList.add('list-group-item', 'pt-3', 'pb-3');
+                
+                const contentDiv = document.createElement('div');
+                li.appendChild(contentDiv);
+            
+                const categoryName = document.createElement('div');
+                categoryName.classList.add('h5');  // Bootstrap typography for headings
+                categoryName.textContent = category.name;
+                contentDiv.appendChild(categoryName);
+            
+                const categoryDetails = document.createElement('div');
+                categoryDetails.classList.add('mt-2', 'small', 'text-muted');  // Bootstrap class for smaller muted text
+                contentDiv.appendChild(categoryDetails);
+            
+                const categorySequence = document.createElement('div');
+                categorySequence.textContent = `Sequence: ${category.sequence}`;
+                categoryDetails.appendChild(categorySequence);
+            
                 const btnGroup = document.createElement('div');
-                btnGroup.classList.add('btn-group');
+                btnGroup.classList.add('btn-group', 'mt-3', 'd-block');  // "d-block" to ensure it's a block element
                 li.appendChild(btnGroup);
-
+            
                 const editBtn = document.createElement('button');
                 editBtn.textContent = 'Edit';
                 editBtn.classList.add('btn', 'btn-primary', 'btn-sm', 'mr-2');
                 editBtn.onclick = () => editCategory(category.id, category.name, category.sequence);
                 btnGroup.appendChild(editBtn);
-
+                
                 const deleteBtn = document.createElement('button');
                 deleteBtn.textContent = 'Delete';
+                deleteBtn.setAttribute('id', `delete-category-${category.id}`);
                 deleteBtn.classList.add('btn', 'btn-danger', 'btn-sm');
                 deleteBtn.onclick = () => deleteCategory(category.id);
                 btnGroup.appendChild(deleteBtn);
-
+                
                 categoryList.appendChild(li);
             });
         });
@@ -154,6 +198,9 @@ function saveProduct() {
     const category = document.getElementById('productCategory').value;
     const content = document.getElementById('productContent').value;
     const sequence = document.getElementById('productSeq').value;
+    const btn = document.getElementById('save-product');  // or get the specific button by another method
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
+    btn.disabled = true;
 
     if (id) {
         fetch(`${API_BASE}/product/${id}`, {
@@ -162,6 +209,13 @@ function saveProduct() {
         }).then(() => {
             clearProductForm();
             fetchProducts();
+            const btn = document.getElementById('save-product');  // or get the specific button by another method
+            btn.innerHTML = 'Save Product';
+            btn.disabled = false;
+        }).catch((error) => {
+            console.log(error);
+            btn.innerHTML = 'Save Product';
+            btn.disabled = false;
         });
     } else {
         fetch(`${API_BASE}/product`, {
@@ -170,14 +224,27 @@ function saveProduct() {
         }).then(() => {
             clearProductForm();
             fetchProducts();
+            btn.innerHTML = 'Save Product';
+            btn.disabled = false;
+        }).catch((error) => {
+            console.log(error);
+            btn.innerHTML = 'Save Product';
+            btn.disabled = false;
         });
     }
 }
 
 function deleteProduct(id) {
+    const btn = document.getElementById(`delete-product-${id}`);  // or get the specific button by another method
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
+    btn.disabled = true;
     fetch(`${API_BASE}/product/${id}`, {
         method: 'DELETE'
-    }).then(() => fetchProducts());
+    }).then(() => {
+        fetchProducts();
+        btn.innerHTML = 'Delete';
+        btn.disabled = false;
+    });
 }
 
 function editProduct(id, name, category, content, sequence) {
@@ -205,43 +272,48 @@ function fetchProducts() {
             data.forEach(product => {
                 const li = document.createElement('li');
                 li.classList.add('list-group-item', 'pt-3', 'pb-3');
-
+                
                 const contentDiv = document.createElement('div');
                 li.appendChild(contentDiv);
-
+            
                 const productName = document.createElement('div');
                 productName.classList.add('h5');  // Bootstrap typography for headings
                 productName.textContent = product.name;
                 contentDiv.appendChild(productName);
-
+            
                 const productDetails = document.createElement('div');
                 productDetails.classList.add('mt-2', 'small', 'text-muted');  // Bootstrap class for smaller muted text
                 contentDiv.appendChild(productDetails);
-
+            
                 const productCategory = document.createElement('div');
                 productCategory.textContent = `Category: ${product.category}`;
                 productDetails.appendChild(productCategory);
-
+            
                 const productContent = document.createElement('div');
                 productContent.textContent = `Content: ${product.content}`;
                 productDetails.appendChild(productContent);
-
+            
+                const productSequence = document.createElement('div');
+                productSequence.textContent = `Sequence: ${product.sequence}`;
+                productDetails.appendChild(productSequence);
+            
                 const btnGroup = document.createElement('div');
                 btnGroup.classList.add('btn-group', 'mt-3', 'd-block');  // "d-block" to ensure it's a block element
                 li.appendChild(btnGroup);
-
+            
                 const editBtn = document.createElement('button');
                 editBtn.textContent = 'Edit';
                 editBtn.classList.add('btn', 'btn-primary', 'btn-sm', 'mr-2');
                 editBtn.onclick = () => editProduct(product.id, product.name, product.category, product.content, product.sequence);
                 btnGroup.appendChild(editBtn);
-
+                
                 const deleteBtn = document.createElement('button');
                 deleteBtn.textContent = 'Delete';
+                deleteBtn.setAttribute('id', `delete-product-${product.id}`);
                 deleteBtn.classList.add('btn', 'btn-danger', 'btn-sm');
                 deleteBtn.onclick = () => deleteProduct(product.id);
                 btnGroup.appendChild(deleteBtn);
-
+                
                 productList.appendChild(li);
             });
 
