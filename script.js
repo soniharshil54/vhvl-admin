@@ -115,6 +115,7 @@ function editCategory(id, name, sequence) {
     document.getElementById('categoryId').value = id;
     document.getElementById('categoryName').value = name;
     document.getElementById('categorySeq').value = sequence;
+    window.scrollTo(0, 0);
 }
 
 function clearCategoryForm() {
@@ -253,6 +254,7 @@ function editProduct(id, name, category, content, sequence) {
     document.getElementById('productCategory').value = category;
     document.getElementById('productContent').value = content;
     document.getElementById('productSeq').value = sequence;
+    window.scrollTo(0, 0);
 }
 
 function clearProductForm() {
